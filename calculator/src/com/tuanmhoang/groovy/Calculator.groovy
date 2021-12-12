@@ -1,40 +1,66 @@
 package com.tuanmhoang.groovy
 
 operatorsAndBracket = ["\\+", "-", "*", "/", "(", ")"]
-operators = ["+", "-", "*", "/"]
+operators = ['+', '-', '*', '/']
 openBracket = "("
 closeBracket = ")"
 
 def calculate(formulaString) {
-  operator = operators.find(o -> formulaString.contains(o));
-  print(operator)
-  if(operator == "+"){
-    operator = "\\+"
-    numbers = formulaString.trim().split(operator)
-    return numbers[0].toInteger() + numbers[1].toInteger()
+  def calculatedString = formulaString.replace(" ", "")
+  def numbersStack = []
+  def operatorsStack = []
+  StringBuilder number = new StringBuilder();
+  def result = 0;
+  for (i in 0..calculatedString.length()-1) {
+    final def charAt = calculatedString.charAt(i)
+    if (i == calculatedString.length() - 1) {
+      number.append(charAt)
+      result = calculateValue(numbersStack.pop(), operatorsStack.pop(), number.toString().toInteger())
+      break
+    }
+    if (charAt.isDigit()) {
+      number.append(calculatedString.charAt(i))
+    } else {
+      numbersStack.push(number.toString().toInteger())
+      if (!operatorsStack.isEmpty()) {
+        result = result + calculateValue(numbersStack.pop(), operatorsStack.pop(), numbersStack.pop())
+        numbersStack.push(result)
+      }
+      number = new StringBuilder()
+      operatorsStack.push(charAt)
+    }
   }
-  if(operator == "-"){
-    numbers = formulaString.trim().split(operator)
-    return numbers[0].toInteger() - numbers[1].toInteger()
+  result
+}
+
+def calculateValue(number1, operator, number2) {
+  def result
+  switch (operator) {
+    case '+':
+      result = number1 + number2
+      break
+    case '-':
+      result = number1 - number2
+      break
+    case '*':
+      result = number1 * number2
+      break
+    case '/':
+      result = number1 / number2
+      break
+    default:
+      throw new RuntimeException("cannot calculate")
   }
-  if(operator == "*"){
-    operator = "\\*"
-    numbers = formulaString.trim().split(operator)
-    return numbers[0].toInteger() * numbers[1].toInteger()
-  }
-  if(operator == "/"){
-    numbers = formulaString.trim().split(operator)
-    return numbers[0].toInteger() / numbers[1].toInteger()
-  }
+  result
 }
 
 assert 5 == calculate("2+ 3")
 assert 2 == calculate("5 - 3")
 assert 15 == calculate("   5 * 3")
 assert 2 == calculate("   6 / 3")
+assert 6 == calculate(" 2 + 3 + 1 ")
 
 //TODO
-//assert 6 == calculate("2 + 3 + 1")
 //assert 4 == calculate("2 + 3 - 1")
 //assert 5 == calculate("2 + 3 * 1")
 //assert 11 == calculate("2 + 3 * 6 / 2")
