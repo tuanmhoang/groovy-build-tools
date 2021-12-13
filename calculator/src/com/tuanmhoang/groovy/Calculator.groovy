@@ -14,42 +14,25 @@ def calculate(formulaString) {
   for (i in 0..calculatedString.length() - 1) {
     final def charAt = calculatedString.charAt(i)
     if (charAt == closeBracket) {
-
-      //StringBuilder insideParenthesisString = new StringBuilder()
       numbersStack.push(number.toString().toInteger())
       def finalResult = []
       if (numbersStack.size() > 1) {
         char op = operatorsStack.pop()
-        //numbersStack.push(number.toString().toInteger())
         number = new StringBuilder()
-//        insideParenthesisString <<= numbersStack.pop()
         finalResult.push(numbersStack.pop())
         while (op != openBracket) {
-//          insideParenthesisString <<= op
-//          insideParenthesisString <<= numbersStack.pop()
           finalResult.push(op)
           finalResult.push(numbersStack.pop())
           if (operatorsStack.size() > 0) {
             op = operatorsStack.pop()
           }
         }
-//        def toBeCalculatedString = insideParenthesisString.reverse().toString()
         def toBeCalculatedString = finalResult.join("")
         def r = calculateWithSimpleInput(toBeCalculatedString)
         numbersStack.push(r)
         parenthesisCount--
         continue
       }
-//      numbersStack.push(number.toString().toInteger())
-//      char op = operatorsStack.pop()
-//      while (!operatorsStack.isEmpty() && op != openBracket) {
-//        result = calculateValue(numbersStack.pop(), op, numbersStack.pop())
-//        numbersStack.push(result)
-//        op = operatorsStack.pop()
-//      }
-//      number = new StringBuilder()
-//      parenthesisCount --
-//      continue
     }
     if (i == calculatedString.length() - 1) {
       number <<= charAt
@@ -100,10 +83,6 @@ def calculate(formulaString) {
     return calculateWithSimpleInput(toBeCalculatedString)
   }
   return result
-}
-
-def reverseNumbersAndOperators(stringToReverse) {
-
 }
 
 def calculateWithSimpleInput(formulaString) {
