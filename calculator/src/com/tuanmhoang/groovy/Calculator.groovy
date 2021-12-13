@@ -1,7 +1,7 @@
 package com.tuanmhoang.groovy
 
-openBracket = "("
-closeBracket = ")"
+openBracket = '('
+closeBracket = ')'
 
 def calculate(formulaString) {
   def calculatedString = formulaString.replace(" ", "")
@@ -12,6 +12,18 @@ def calculate(formulaString) {
   def shouldCalculate = false
   for (i in 0..calculatedString.length()-1) {
     final def charAt = calculatedString.charAt(i)
+    if (charAt == closeBracket) {
+      //number.append(charAt)
+      numbersStack.push(number.toString().toInteger())
+      char op = operatorsStack.pop()
+      while (! operatorsStack.isEmpty() && op != openBracket ) {
+        result = calculateValue(numbersStack.pop(), op, numbersStack.pop())
+        numbersStack.push(result)
+        op = operatorsStack.pop()
+      }
+      number = new StringBuilder()
+      continue
+    }
     if (i == calculatedString.length() - 1) {
       number.append(charAt)
       numbersStack.push(number.toString().toInteger())
@@ -24,9 +36,13 @@ def calculate(formulaString) {
     if (charAt.isDigit()) {
       number.append(calculatedString.charAt(i))
     } else {
-      numbersStack.push(number.toString().toInteger())
+      if(charAt != openBracket && charAt != closeBracket) {
+        if(!number.toString().isEmpty()){
+          numbersStack.push(number.toString().toInteger())
+        }
+      }
       if(shouldCalculate){
-        result = result + calculateValue(numbersStack.pop(), operatorsStack.pop(), numbersStack.pop())
+        result = calculateValue(numbersStack.pop(), operatorsStack.pop(), numbersStack.pop())
         numbersStack.push(result)
         shouldCalculate = false
       }
@@ -81,7 +97,8 @@ assert 30 == calculate(" 12 + 3 + 15 ")
 assert 4 == calculate("2 + 3 - 1")
 assert 5 == calculate("2 + 3 * 1")
 assert 11 == calculate("2 + 3 * 6 / 2")
+assert 9 == calculate("2 * 3 + 6 / 2")
+assert 15 == calculate("(2 + 3) * 6 / 2")
 
 //TODO
-//assert 15 == calculate("(2 + 3) * 6 / 2")
 //assert 30 == calculate("(2 + 3) * 2 * (1+ 2)")
