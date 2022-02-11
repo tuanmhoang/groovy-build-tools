@@ -7,9 +7,9 @@
   <!-- that they should prefer consuming it instead. -->
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.tuanmhoang.builder</groupId>
-  <artifactId>builder-gradle</artifactId>
-  <version>unspecified</version>
+  <groupId>com.tuanmhoang.builders</groupId>
+  <artifactId>builder-admin-gradle</artifactId>
+  <version>1.1</version>
   <dependencies>
     <dependency>
       <groupId>builders-app</groupId>

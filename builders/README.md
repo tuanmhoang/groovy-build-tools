@@ -155,7 +155,7 @@ To add to `pom.xml`
 
 Go to root folder, run `mvn clean install` to build and install to the dependencies to repository
 
-Go to `package` folder, run `mvn clean package` to build jar files with the dependencies
+Go to `packaging` folder, run `mvn clean package` to build jar files with the dependencies
 
 Run `java -jar <jar file> <message>` to execute
 
