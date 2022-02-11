@@ -1,0 +1,5 @@
+rootProject.name = 'builders-app'
+include 'utils'
+include 'services'
+include 'admin'
+include 'web'

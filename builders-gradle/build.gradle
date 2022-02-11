@@ -1,0 +1,27 @@
+plugins {
+  id 'groovy-gradle-plugin'
+  id 'maven-publish'
+  id 'java'
+  id 'java-library'
+}
+
+java{
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+  gradlePluginPortal()
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      groupId = 'com.tuanmhoang.builders'
+      artifactId = 'builder-using-gradle'
+      version = '1.1'
+
+      from components.java
+    }
+  }
+}
